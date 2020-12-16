@@ -1,6 +1,6 @@
 # Author: Atanu Sarkar
 # image capture
-# v1.0
+# v1.1
 # 15-December-2020
 
 import numpy as np
@@ -15,7 +15,7 @@ pygame.init()
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 # input video frame properties
-_, frame = cap.read()
+_, frame = cap.read()           # (480, 640, 3)
 HEIGHT = frame.shape[0]
 WIDTH = frame.shape[1]
 
@@ -24,10 +24,15 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("dataset creator")
 
 # global variables
-debugging_mode = False       # make this flag True to enable debugging mode
+debugging_mode = False          # make this flag True to enable debugging mode
 running = cap.isOpened()
+SIDE = 256                      # side length (in px) of the capture image
+x1 = int((WIDTH - SIDE) / 2)
+x2 = int((WIDTH + SIDE) / 2)
+y1 = int((HEIGHT - SIDE) / 2)
+y2 = int((HEIGHT + SIDE) / 2)
 
-capture_0 = False             # flags to check if a num keys were pressed
+capture_0 = False               # flags to check if a num keys were pressed
 capture_1 = False
 capture_2 = False
 capture_3 = False
@@ -186,7 +191,7 @@ while running:
     # class 0
     if Key_0_Pressed == 0 and capture_0:
         capture_0 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_0/")
         filename = str("IMG" + "_c0_" + timestamp + ".png")
@@ -195,7 +200,7 @@ while running:
     # class 1
     if Key_1_Pressed == 0 and capture_1:
         capture_1 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_1/")
         filename = str("IMG" + "_c1_" + timestamp + ".png")
@@ -204,7 +209,7 @@ while running:
     # class 2
     if Key_2_Pressed == 0 and capture_2:
         capture_2 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_2/")
         filename = str("IMG" + "_c2_" + timestamp + ".png")
@@ -213,7 +218,7 @@ while running:
     # class 3
     if Key_3_Pressed == 0 and capture_3:
         capture_3 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_3/")
         filename = str("IMG" + "_c3_" + timestamp + ".png")
@@ -222,7 +227,7 @@ while running:
     # class 4
     if Key_4_Pressed == 0 and capture_4:
         capture_4 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_4/")
         filename = str("IMG" + "_c4_" + timestamp + ".png")
@@ -231,7 +236,7 @@ while running:
     # class 5
     if Key_5_Pressed == 0 and capture_5:
         capture_5 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_5/")
         filename = str("IMG" + "_c5_" + timestamp + ".png")
@@ -240,7 +245,7 @@ while running:
     # class 6
     if Key_6_Pressed == 0 and capture_6:
         capture_6 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_6/")
         filename = str("IMG" + "_c6_" + timestamp + ".png")
@@ -249,7 +254,7 @@ while running:
     # class 7
     if Key_7_Pressed == 0 and capture_7:
         capture_7 = False
-        image = frame[40:440, 120:520, :].copy()
+        image = frame[y1:y2, x1:x2, :].copy()
         timestamp = str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         path = str("data/class_7/")
         filename = str("IMG" + "_c7_" + timestamp + ".png")
@@ -257,7 +262,7 @@ while running:
         print("LOG: " + filename + " Saved to " + path + "successfully!!")
 
     # frame shape -> (480, 640, 3)
-    frame = cv2.rectangle(frame, (120, 40), (520, 440), (0, 0, 255), 5)
+    frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
 
     # opencv view (for debugging)
     if debugging_mode:
@@ -280,4 +285,3 @@ while running:
 cap.release()
 cv2.destroyAllWindows()
 pygame.quit()
-
