@@ -1,6 +1,6 @@
 # Author: Atanu Sarkar
 # image capture
-# v1.1
+# v1.2
 # 15-December-2020
 
 import numpy as np
@@ -27,7 +27,7 @@ pygame.display.set_caption("dataset creator")
 debugging_mode = False          # make this flag True to enable debugging mode
 running = cap.isOpened()
 SIDE = 256                      # side length (in px) of the capture image
-x1 = int((WIDTH - SIDE) / 2)
+x1 = int((WIDTH - SIDE) / 2)    # x1, x2, y1, y2 are the coordinates of capture square
 x2 = int((WIDTH + SIDE) / 2)
 y1 = int((HEIGHT - SIDE) / 2)
 y2 = int((HEIGHT + SIDE) / 2)
@@ -41,6 +41,10 @@ capture_5 = False
 capture_6 = False
 capture_7 = False
 
+rect_color = (255, 0, 0)
+
+# load images and resources
+text_overlay = pygame.image.load("res/Text Overlay 8-bit.png")  # 640 x 480 px image
 
 # Input key states (keyboard)
 Key_0_Pressed = 0
@@ -262,7 +266,8 @@ while running:
         print("LOG: " + filename + " Saved to " + path + "successfully!!")
 
     # frame shape -> (480, 640, 3)
-    frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
+    if debugging_mode:
+        frame = cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 5)
 
     # opencv view (for debugging)
     if debugging_mode:
@@ -276,6 +281,19 @@ while running:
 
     # blit the frame
     window.blit(frame, (0, 0))
+
+    # blit the text overlay
+    window.blit(text_overlay, (0, 0))
+
+    # get capture status via key press, and update capture square color
+    if (Key_0_Pressed or Key_1_Pressed or Key_2_Pressed or Key_3_Pressed or Key_4_Pressed or Key_5_Pressed or
+            Key_6_Pressed or Key_7_Pressed):
+        rect_color = (0, 255, 0)
+    else:
+        rect_color = (255, 0, 0)
+
+    # blit square frame to indicate the capture area
+    pygame.draw.rect(window, rect_color, (x1, y1, SIDE, SIDE), 5)
 
     # render the display
     pygame.display.update()
