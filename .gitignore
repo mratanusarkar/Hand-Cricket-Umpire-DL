@@ -4,3 +4,4 @@
 __pycache__/
 dataset/data/
 scratch.py
+.ipynb_checkpoints/
